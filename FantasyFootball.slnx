@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="FantasyFootball.Core/FantasyFootball.Core.csproj" />
+  <Project Path="FantasyFootball.Models/FantasyFootball.Models.csproj" />
+  <Project Path="FantasyFootball.UI/FantasyFootball.UI.csproj" />
+  <Project Path="Sandbox/Sandbox.csproj" Id="9d9e5ce6-c8b5-49c1-bb96-a92129accb08" />
+</Solution>
