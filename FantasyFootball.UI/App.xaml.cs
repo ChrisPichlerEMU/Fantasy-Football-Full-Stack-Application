@@ -4,7 +4,6 @@ using FantasyFootball.Models.Interfaces;
 using FantasyFootball.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Http;
 using System.Net.Http;
 using System.Windows;
 
