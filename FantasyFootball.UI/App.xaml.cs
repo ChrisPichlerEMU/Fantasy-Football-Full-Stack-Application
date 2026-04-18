@@ -1,10 +1,11 @@
-﻿using FantasyFootball.Core.Domain.Services.Interfaces;
-using FantasyFootball.Core.Domain.Services.Implementations;
-using FantasyFootball.Core.Web.Clients;
+﻿using FantasyFootball.Core.Application.Services;
+using FantasyFootball.Core.Infrastructure.Clients;
+using FantasyFootball.Models.Interfaces;
 using FantasyFootball.UI;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Http;
+using System.Net.Http;
 using System.Windows;
 
 public partial class App : Application
@@ -36,10 +37,25 @@ public partial class App : Application
 
     protected override async void OnStartup(StartupEventArgs e)
     {
-        await _host.StartAsync();
-        var mainWindow = _host.Services.GetRequiredService<MainWindow>();
-        mainWindow.Show();
-        base.OnStartup(e);
+        try
+        {
+            await _host.StartAsync();
+            var mainWindow = _host.Services.GetRequiredService<MainWindow>();
+            mainWindow.Show();
+            base.OnStartup(e);
+        }
+        catch (HttpRequestException ex)
+        {
+            MessageBox.Show($"An error occurred during the execution of an HTTP request. Message: {ex.Message}",
+                "An HTTP Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
+            Shutdown();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"An unexpected error occurred during startup: {ex.Message}",
+                "An Error Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
+            Shutdown();
+        }
     }
 
     protected override async void OnExit(ExitEventArgs e)
