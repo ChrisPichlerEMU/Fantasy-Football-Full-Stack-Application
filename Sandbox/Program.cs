@@ -1,24 +1,35 @@
-﻿using FantasyFootball.Core.Domain.Services.Implementations;
-using FantasyFootball.Core.Web.Clients;
+﻿using FantasyFootball.Core.Application.Services;
+using FantasyFootball.Core.Infrastructure.Clients;
+using FantasyFootball.Models.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace FantasyFootball.Core;
+namespace Sandbox;
 
 public sealed class Program
 {
-    public static void Main()
+    public static async Task Main()
     {
-        // Git repo!
-    }
+        var config = new ConfigurationBuilder()
+            .AddUserSecrets<Program>()
+            .Build();
 
-    private static PlayerService BuildPlayerService()
-    {
-        var httpClient = new HttpClient()
+        var services = new ServiceCollection();
+
+        services.AddHttpClient<ISportsDataClient, SportsDataClient>(client =>
         {
-            BaseAddress = new("https://api.sportsdata.io/api")
-        };
+            client.BaseAddress = new Uri("https://api.sportsdata.io");
+            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", config["SportsDataIO API Key"]);
+        });
 
-        var sportsDataClient = new SportsDataClient(httpClient);
+        services.AddSingleton<IPlayerService, PlayerService>();
 
-        return new PlayerService(sportsDataClient);
+        var provider = services.BuildServiceProvider();
+
+        var playerService = provider.GetService<IPlayerService>();
+
+        var players = await playerService.GetAllPlayers().ConfigureAwait(false);
+
+        // Debug here :)
     }
 }
