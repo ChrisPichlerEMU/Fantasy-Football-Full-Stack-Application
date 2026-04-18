@@ -10,8 +10,4 @@
     <ProjectReference Include="..\FantasyFootball.Models\FantasyFootball.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
-
 </Project>
