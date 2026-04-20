@@ -1,4 +1,5 @@
 ﻿using FantasyFootball.Models.Dto;
+using FantasyFootball.Models.Interfaces.Clients;
 
 namespace FantasyFootball.Core.Infrastructure.Clients;
 

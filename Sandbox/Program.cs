@@ -1,6 +1,7 @@
 ﻿using FantasyFootball.Core.Application.Services;
 using FantasyFootball.Core.Infrastructure.Clients;
-using FantasyFootball.Models.Interfaces;
+using FantasyFootball.Models.Interfaces.Clients;
+using FantasyFootball.Models.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +18,12 @@ public sealed class Program
         var services = new ServiceCollection();
 
         services.AddHttpClient<ISportsDataClient, SportsDataClient>(client =>
+        {
+            client.BaseAddress = new Uri("https://api.sportsdata.io");
+            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", config["SportsDataIO API Key"]);
+        });
+
+        services.AddHttpClient<IApiSportsClient, ApiSportsClient>(client =>
         {
             client.BaseAddress = new Uri("https://api.sportsdata.io");
             client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", config["SportsDataIO API Key"]);

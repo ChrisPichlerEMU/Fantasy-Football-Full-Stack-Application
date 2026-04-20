@@ -1,6 +1,6 @@
-﻿using FantasyFootball.Core.Infrastructure.Clients;
-using FantasyFootball.Models.Dto;
-using FantasyFootball.Models.Interfaces;
+﻿using FantasyFootball.Models.Dto;
+using FantasyFootball.Models.Interfaces.Clients;
+using FantasyFootball.Models.Interfaces.Services;
 
 namespace FantasyFootball.Core.Application.Services;
 

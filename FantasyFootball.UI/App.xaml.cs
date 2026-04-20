@@ -1,6 +1,6 @@
 ﻿using FantasyFootball.Core.Application.Services;
 using FantasyFootball.Core.Infrastructure.Clients;
-using FantasyFootball.Models.Interfaces;
+using FantasyFootball.Models.Interfaces.Services;
 using FantasyFootball.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
