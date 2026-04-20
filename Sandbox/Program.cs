@@ -29,13 +29,21 @@ public sealed class Program
             client.DefaultRequestHeaders.Add("x-apisports-key", config["API Sports Key"]);
         });
 
+        services.AddHttpClient<IApiSportsMediaClient, ApiSportsMediaClient>(client =>
+        {
+            client.BaseAddress = new Uri("https://media.api-sports.io");
+            client.DefaultRequestHeaders.Add("x-apisports-key", config["API Sports Media Key"]);
+        });
+
         services.AddSingleton<IPlayerService, PlayerService>();
 
         var provider = services.BuildServiceProvider();
 
         var playerService = provider.GetService<IPlayerService>();
 
-        var players = await playerService.GetAllPlayers().ConfigureAwait(false);
+        //var players = await playerService.GetAllPlayers().ConfigureAwait(false);
+
+        var patrickMahomesPhoto = await playerService.GetPlayerPhoto(1197).ConfigureAwait(false);
 
         // Debug here :)
     }
