@@ -25,8 +25,8 @@ public sealed class Program
 
         services.AddHttpClient<IApiSportsClient, ApiSportsClient>(client =>
         {
-            client.BaseAddress = new Uri("https://api.sportsdata.io");
-            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", config["SportsDataIO API Key"]);
+            client.BaseAddress = new Uri("https://v1.american-football.api-sports.io");
+            client.DefaultRequestHeaders.Add("x-apisports-key", config["API Sports Key"]);
         });
 
         services.AddSingleton<IPlayerService, PlayerService>();
