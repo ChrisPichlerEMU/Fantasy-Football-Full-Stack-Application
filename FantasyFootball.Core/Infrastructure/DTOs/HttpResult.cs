@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace FantasyFootball.Core.Infrastructure.Dto;
+namespace FantasyFootball.Core.Infrastructure.DTOs;
 
 public sealed class HttpResult<T>
 {

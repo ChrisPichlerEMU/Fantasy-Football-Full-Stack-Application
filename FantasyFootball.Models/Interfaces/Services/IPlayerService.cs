@@ -1,4 +1,4 @@
-﻿using FantasyFootball.Models.Dto;
+﻿using FantasyFootball.Models.DTOs.Players;
 
 namespace FantasyFootball.Models.Interfaces.Services;
 
