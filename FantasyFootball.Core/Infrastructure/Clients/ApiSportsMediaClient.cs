@@ -6,13 +6,13 @@ public sealed class ApiSportsMediaClient(HttpClient httpClient) : BaseHttpClient
 {
     public async Task<byte[]> GetPlayerPhoto(int id)
     {
-        var httpResult = await ExecuteGetByteArray(HttpClientConstants.ApiSportsMediaGetPlayerPictures, [id.ToString()]);
+        var httpResult = await ExecuteGetByteArray(HttpClientConstants.ApiSportsMediaGetPlayerPicturesPath, [id.ToString()]).ConfigureAwait(false);
 
         if (!httpResult.IsSuccess)
         {
-            throw new HttpRequestException(BuildErrorMessage(HttpClientConstants.ApiSportsMediaGetPlayerPictures, httpResult.ErrorMessage));
+            throw new HttpRequestException(BuildErrorMessage(HttpClientConstants.ApiSportsMediaGetPlayerPicturesPath, httpResult.ErrorMessage));
         }
 
-        return httpResult.Data ?? throw new InvalidOperationException($"The {HttpClientConstants.ApiSportsMediaGetPlayerPictures} endpoint returned a null response body.");
+        return httpResult.Data ?? throw new InvalidOperationException($"The {HttpClientConstants.ApiSportsMediaGetPlayerPicturesPath} endpoint returned a null response body.");
     }
 }
