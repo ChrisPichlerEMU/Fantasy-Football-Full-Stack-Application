@@ -1,4 +1,5 @@
-﻿using FantasyFootball.Core.Infrastructure.Dto;
+﻿using FantasyFootball.Core.Infrastructure.DTOs;
+using FantasyFootball.Models.QueryParameters;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -9,11 +10,11 @@ public abstract class BaseHttpClient(HttpClient httpClient)
 {
     private readonly JsonSerializerOptions _jsonSerializerOptions = new(JsonSerializerDefaults.Web);
 
-    public async Task<HttpResult<T>> ExecuteGet<T>(string path, string[]? args = null, Dictionary<string, string>? queryParamters = null, CancellationToken cancellationToken = default)
+    public async Task<HttpResult<T>> ExecuteGet<T>(string path, string[]? args = null, List<IQueryParameter>? queryParameters = null, CancellationToken cancellationToken = default)
     {
         try
         {
-            var fullPathWithQueryParameters = BuildPathWithQueryParameters(path, args, queryParamters);
+            var fullPathWithQueryParameters = BuildPathWithQueryParameters(path, args, queryParameters);
 
             var response = await httpClient.GetAsync(fullPathWithQueryParameters, cancellationToken).ConfigureAwait(false);
 
@@ -36,11 +37,11 @@ public abstract class BaseHttpClient(HttpClient httpClient)
         }
     }
 
-    public async Task<HttpResult<byte[]>> ExecuteGetByteArray(string path, string[]? args, Dictionary<string, string>? queryParamters = null, CancellationToken cancellationToken = default)
+    public async Task<HttpResult<byte[]>> ExecuteGetByteArray(string path, string[]? args, List<IQueryParameter>? queryParameters = null, CancellationToken cancellationToken = default)
     {
         try
         {
-            var fullPathWithQueryParameters = BuildPathWithQueryParameters(path, args, queryParamters);
+            var fullPathWithQueryParameters = BuildPathWithQueryParameters(path, args, queryParameters);
 
             var imageByteArray = await httpClient.GetByteArrayAsync(fullPathWithQueryParameters, cancellationToken).ConfigureAwait(false);
 
@@ -56,7 +57,7 @@ public abstract class BaseHttpClient(HttpClient httpClient)
         }
     }
 
-    private static string BuildPathWithQueryParameters(string path, string[]? args, Dictionary<string, string>? queryParameters)
+    private static string BuildPathWithQueryParameters(string path, string[]? args, List<IQueryParameter>? queryParameters)
     {
         var formattedPath = args is not null && args.Length > 0 ? string.Format(path, (object[])args) : path;
 
@@ -65,7 +66,7 @@ public abstract class BaseHttpClient(HttpClient httpClient)
             return formattedPath;
         }
 
-        var query = string.Join("&", queryParameters.Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}"));
+        var query = string.Join("&", queryParameters.Select(param => $"{Uri.EscapeDataString(param.QueryKey)}={Uri.EscapeDataString(param.QueryValue)}"));
 
         return $"{formattedPath}?{query}";
     }
