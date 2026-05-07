@@ -1,4 +1,5 @@
-﻿using FantasyFootball.Core.Infrastructure.Dto;
+﻿using FantasyFootball.Core.Infrastructure.DTOs;
+using FantasyFootball.Models.QueryParameters;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -9,11 +10,11 @@ public abstract class BaseHttpClient(HttpClient httpClient)
 {
     private readonly JsonSerializerOptions _jsonSerializerOptions = new(JsonSerializerDefaults.Web);
 
-    public async Task<HttpResult<T>> ExecuteGet<T>(string path, Dictionary<string, string>? queryParamters = null, CancellationToken cancellationToken = default)
+    public async Task<HttpResult<T>> ExecuteGet<T>(string path, string[]? args = null, List<IQueryParameter>? queryParameters = null, CancellationToken cancellationToken = default)
     {
         try
         {
-            var fullPathWithQueryParameters = BuildPathWithQueryParameters(path, queryParamters);
+            var fullPathWithQueryParameters = BuildPathWithQueryParameters(path, args, queryParameters);
 
             var response = await httpClient.GetAsync(fullPathWithQueryParameters, cancellationToken).ConfigureAwait(false);
 
@@ -22,7 +23,7 @@ public abstract class BaseHttpClient(HttpClient httpClient)
                 throw new HttpRequestException($"Request to endpoint with path = {path} failed with status code {response.StatusCode}", inner: null, statusCode: response.StatusCode);
             }
 
-            var responseObject = await response.Content.ReadFromJsonAsync<T>(_jsonSerializerOptions, cancellationToken);
+            var responseObject = await response.Content.ReadFromJsonAsync<T>(_jsonSerializerOptions, cancellationToken).ConfigureAwait(false);
 
             return HttpResult<T>.Success(responseObject);
         }
@@ -36,16 +37,38 @@ public abstract class BaseHttpClient(HttpClient httpClient)
         }
     }
 
-    private static string BuildPathWithQueryParameters(string path, Dictionary<string, string>? queryParameters)
+    public async Task<HttpResult<byte[]>> ExecuteGetByteArray(string path, string[]? args, List<IQueryParameter>? queryParameters = null, CancellationToken cancellationToken = default)
     {
+        try
+        {
+            var fullPathWithQueryParameters = BuildPathWithQueryParameters(path, args, queryParameters);
+
+            var imageByteArray = await httpClient.GetByteArrayAsync(fullPathWithQueryParameters, cancellationToken).ConfigureAwait(false);
+
+            return HttpResult<byte[]>.Success(imageByteArray);
+        }
+        catch (HttpRequestException ex)
+        {
+            return HttpResult<byte[]>.Failure(ex.StatusCode ?? HttpStatusCode.InternalServerError, ex.Message);
+        }
+        catch (TaskCanceledException ex)
+        {
+            return HttpResult<byte[]>.Failure(HttpStatusCode.RequestTimeout, ex.Message);
+        }
+    }
+
+    private static string BuildPathWithQueryParameters(string path, string[]? args, List<IQueryParameter>? queryParameters)
+    {
+        var formattedPath = args is not null && args.Length > 0 ? string.Format(path, (object[])args) : path;
+
         if (queryParameters is null || queryParameters.Count == 0)
         {
-            return path;
+            return formattedPath;
         }
 
-        var query = string.Join("&", queryParameters.Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}"));
+        var query = string.Join("&", queryParameters.Select(param => $"{Uri.EscapeDataString(param.QueryKey)}={Uri.EscapeDataString(param.QueryValue)}"));
 
-        return $"{path}?{query}";
+        return $"{formattedPath}?{query}";
     }
 
     protected static string BuildErrorMessage(string path, string? errorMessage) => $"There was an error when attempting to access the {path} endpoint. Message = {errorMessage}";

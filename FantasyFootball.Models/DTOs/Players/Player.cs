@@ -1,4 +1,4 @@
-﻿namespace FantasyFootball.Models.Dto;
+﻿namespace FantasyFootball.Models.DTOs.Players;
 
 public sealed class Player
 {
