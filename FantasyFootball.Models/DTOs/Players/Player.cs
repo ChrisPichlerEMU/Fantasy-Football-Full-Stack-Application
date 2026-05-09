@@ -2,47 +2,47 @@
 
 public sealed class Player
 {
-    public required int PlayerId { get; init; }
+    public required int Id { get; init; }
 
-    public string? Team { get; init; }
+    public required string Name { get; init; }
 
-    public int? Number { get; init; }
+    public string FirstName => ParsedName.First;
 
-    public required string FirstName { get; init; }
+    public string LastName => ParsedName.Last;
 
-    public required string LastName { get; init; }
-
-    public required string Position { get; init; }
-
-    public required string Status { get; init; }
+    public required int Age { get; init; }
 
     public required string Height { get; init; }
 
-    public required int Weight { get; init; }
+    public required string Weight { get; init; }
 
-    public DateTime? BirthDate { get; init; }
+    public string? College { get; init; }
 
-    public required string College { get; init; }
+    public required string Group { get; init; }
 
-    public int? Experience { get; init; }
+    public required string Position { get; init; }
 
-    public required string FantasyPosition { get; init; }
+    public required int Number { get; init; }
 
-    public required string PositionCategory { get; init; }
+    public required string Salary { get; init; }
 
-    public required string PhotoUrl { get; init; }
+    public required int Experience { get; init; }
 
-    public int? ByeWeek { get; init; }
+    public required string Image { get; init; }
 
-    public string? CollegeDraftTeam { get; init; }
+    private (string First, string Last)? _parsedName;
 
-    public int? CollegeDraftYear { get; init; }
+    private (string First, string Last) ParsedName
+    {
+        get
+        {
+            if (_parsedName is null)
+            {
+                var firstAndLastName = Name.Split(' ', 2);
+                _parsedName = (firstAndLastName[0], firstAndLastName[1]);
+            }
 
-    public int? CollegeDraftRound { get; init; }
-
-    public int? CollegeDraftPick { get; init; }
-
-    public string? InjuryStatus { get; init; }
-
-    public int? TeamId { get; init; }
+            return _parsedName.Value;
+        }
+    }
 }
