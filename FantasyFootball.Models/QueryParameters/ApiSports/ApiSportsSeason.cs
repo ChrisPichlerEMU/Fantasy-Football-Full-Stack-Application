@@ -2,7 +2,7 @@
 
 public class ApiSportsSeason(string queryValue) : QueryParameter(ApiSportsSeasonQueryKey, queryValue)
 {
-    public const string ApiSportsSeasonQueryKey = "season";
+    private const string ApiSportsSeasonQueryKey = "season";
 
     public static readonly ApiSportsSeason Season2024 = new("2024");
     public static readonly ApiSportsSeason Season2025 = new("2025");
