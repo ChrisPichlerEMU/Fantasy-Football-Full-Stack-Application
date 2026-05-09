@@ -2,47 +2,47 @@
 
 public sealed class Player
 {
-    public required int PlayerId { get; init; }
+    public required int Id { get; init; }
 
-    public string? Team { get; init; }
+    public required string Name { get; init; }
+
+    public string FirstName => ParsedName.First;
+
+    public string LastName => ParsedName.Last;
+
+    public int? Age { get; init; }
+
+    public string? Height { get; init; }
+
+    public string? Weight { get; init; }
+
+    public string? College { get; init; }
+
+    public string? Group { get; init; }
+
+    public string? Position { get; init; }
 
     public int? Number { get; init; }
 
-    public required string FirstName { get; init; }
-
-    public required string LastName { get; init; }
-
-    public required string Position { get; init; }
-
-    public required string Status { get; init; }
-
-    public required string Height { get; init; }
-
-    public required int Weight { get; init; }
-
-    public DateTime? BirthDate { get; init; }
-
-    public required string College { get; init; }
+    public string? Salary { get; init; }
 
     public int? Experience { get; init; }
 
-    public required string FantasyPosition { get; init; }
+    public required string Image { get; init; }
 
-    public required string PositionCategory { get; init; }
+    private (string First, string Last)? _parsedName;
 
-    public required string PhotoUrl { get; init; }
+    private (string First, string Last) ParsedName
+    {
+        get
+        {
+            if (_parsedName is null)
+            {
+                var firstAndLastName = Name.Split(' ', 2);
+                _parsedName = (firstAndLastName[0], firstAndLastName[1]);
+            }
 
-    public int? ByeWeek { get; init; }
-
-    public string? CollegeDraftTeam { get; init; }
-
-    public int? CollegeDraftYear { get; init; }
-
-    public int? CollegeDraftRound { get; init; }
-
-    public int? CollegeDraftPick { get; init; }
-
-    public string? InjuryStatus { get; init; }
-
-    public int? TeamId { get; init; }
+            return _parsedName.Value;
+        }
+    }
 }

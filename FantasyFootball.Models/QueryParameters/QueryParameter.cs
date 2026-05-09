@@ -1,14 +1,15 @@
-﻿namespace FantasyFootball.Models.QueryParameters;
+﻿using System.Reflection;
 
-public abstract class QueryParameter : IQueryParameter
+namespace FantasyFootball.Models.QueryParameters;
+
+public abstract class QueryParameter<T>(string queryKey, string queryValue) : IQueryParameter where T : QueryParameter<T>
 {
-    public string QueryKey { get; }
+    public string QueryKey { get; } = queryKey;
 
-    public string QueryValue { get; }
+    public string QueryValue { get; } = queryValue;
 
-    protected QueryParameter(string queryKey, string queryValue)
-    {
-        QueryKey = queryKey;
-        QueryValue = queryValue;
-    }
+    public static IReadOnlyList<T> GetValues() => [.. typeof(T)
+        .GetFields(BindingFlags.Public | BindingFlags.Static)
+        .Where(field => field.FieldType == typeof(T))
+        .Select(field => (T)field.GetValue(null)!)];
 }

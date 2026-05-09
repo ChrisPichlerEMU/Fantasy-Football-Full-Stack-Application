@@ -1,5 +1,4 @@
-﻿using FantasyFootball.Models.DTOs.Teams;
-using FantasyFootball.Models.Interfaces.Clients;
+﻿using FantasyFootball.Models.Interfaces.Clients;
 using FantasyFootball.Models.QueryParameters.ApiSports;
 using FantasyFootball.Models.Responses.ApiSports;
 
@@ -17,5 +16,17 @@ public sealed class ApiSportsClient(HttpClient httpClient) : BaseHttpClient(http
         }
 
         return httpResult.Data ?? throw new InvalidOperationException($"The {HttpClientConstants.ApiSportsGetAllTeamsPath} endpoint returned a null response body.");
+    }
+
+    public async Task<GetAllPlayersFromSpecificTeamResponse> GetAllPlayersFromSpecificTeam(ApiSportsTeam team)
+    {
+        var httpResult = await ExecuteGet<GetAllPlayersFromSpecificTeamResponse>(HttpClientConstants.ApiSportsGetAllPlayersPath, queryParameters: [team, ApiSportsSeason.Season2024]).ConfigureAwait(false);
+
+        if (!httpResult.IsSuccess)
+        {
+            throw new HttpRequestException(BuildErrorMessage(HttpClientConstants.ApiSportsGetAllPlayersPath, httpResult.ErrorMessage));
+        }
+
+        return httpResult.Data ?? throw new InvalidOperationException($"The {HttpClientConstants.ApiSportsGetAllPlayersPath} endpoint returned a null response body.");
     }
 }
