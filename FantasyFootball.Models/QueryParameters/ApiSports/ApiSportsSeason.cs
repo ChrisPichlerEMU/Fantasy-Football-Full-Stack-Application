@@ -1,6 +1,6 @@
 ﻿namespace FantasyFootball.Models.QueryParameters.ApiSports;
 
-public class ApiSportsSeason(string queryValue) : QueryParameter(ApiSportsSeasonQueryKey, queryValue)
+public class ApiSportsSeason(string queryValue) : QueryParameter<ApiSportsSeason>(ApiSportsSeasonQueryKey, queryValue)
 {
     private const string ApiSportsSeasonQueryKey = "season";
 

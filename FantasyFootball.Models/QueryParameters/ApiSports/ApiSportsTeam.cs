@@ -1,6 +1,6 @@
 ﻿namespace FantasyFootball.Models.QueryParameters.ApiSports;
 
-public class ApiSportsTeam(string queryValue) : QueryParameter(ApiSportsTeamQueryKey, queryValue)
+public class ApiSportsTeam(string queryValue) : QueryParameter<ApiSportsTeam>(ApiSportsTeamQueryKey, queryValue)
 {
     private const string ApiSportsTeamQueryKey = "team";
 
@@ -36,5 +36,4 @@ public class ApiSportsTeam(string queryValue) : QueryParameter(ApiSportsTeamQuer
     public static readonly ApiSportsTeam LosAngelesChargers = new("30");
     public static readonly ApiSportsTeam LosAngelesRams = new("31");
     public static readonly ApiSportsTeam MinnesotaVikings = new("32");
-
 }
