@@ -10,23 +10,23 @@ public sealed class Player
 
     public string LastName => ParsedName.Last;
 
-    public required int Age { get; init; }
+    public int? Age { get; init; }
 
-    public required string Height { get; init; }
+    public string? Height { get; init; }
 
-    public required string Weight { get; init; }
+    public string? Weight { get; init; }
 
     public string? College { get; init; }
 
-    public required string Group { get; init; }
+    public string? Group { get; init; }
 
-    public required string Position { get; init; }
+    public string? Position { get; init; }
 
-    public required int Number { get; init; }
+    public int? Number { get; init; }
 
-    public required string Salary { get; init; }
+    public string? Salary { get; init; }
 
-    public required int Experience { get; init; }
+    public int? Experience { get; init; }
 
     public required string Image { get; init; }
 
