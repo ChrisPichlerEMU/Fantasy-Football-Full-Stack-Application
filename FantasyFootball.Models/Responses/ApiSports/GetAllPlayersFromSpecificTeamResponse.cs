@@ -2,4 +2,4 @@
 
 namespace FantasyFootball.Models.Responses.ApiSports;
 
-public sealed class GetAllPlayersFromSpecificTeamResponse : BaseApiSportsResponse<Player> { }
+public sealed class GetAllPlayersFromSpecificTeamResponse : BaseApiSportsResponse<PlayerResponse> { }

@@ -7,7 +7,7 @@ namespace FantasyFootball.Core.Application.Services;
 
 public sealed class TeamService(IApiSportsClient apiSportsClient) : ITeamService
 {
-    public async Task<IEnumerable<Team>> GetAllTeams()
+    public async Task<IEnumerable<TeamResponse>> GetAllTeams()
     {
         var allTeams = await apiSportsClient.GetAllTeams().ConfigureAwait(false);
 

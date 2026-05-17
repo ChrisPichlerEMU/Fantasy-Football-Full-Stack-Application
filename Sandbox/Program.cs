@@ -51,7 +51,8 @@ public sealed class Program
         // Get all players from all teams - COMMENTED OUT SO I DON'T HIT MY DAILY API LIMIT (but it does work!)
         //var allPlayers = await playerService.GetAllPlayers().ConfigureAwait(false);
 
-        // Get all scores from previous season
+        // Get all scores from previous season - COMMENTED OUT SO I DON'T HIT MY DAILY API LIMIT (but it does work!)
+        //var allGames = await gameService.GetAllScoresFromLastSeason().ConfigureAwait(false);
 
         // Get upcoming schedules for all teams
 

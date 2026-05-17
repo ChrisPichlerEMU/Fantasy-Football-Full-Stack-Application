@@ -8,5 +8,7 @@ public static class HttpClientConstants
 
     public const string ApiSportsGetAllTeamsPath = "/teams";
 
+    public const string ApiSportsGetAllGamesPath = "/games";
+
     public const string ApiSportsMediaGetPlayerPicturesPath = "/american-football/players/{0}.png";
 }
