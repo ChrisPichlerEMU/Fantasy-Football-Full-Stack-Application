@@ -1,6 +1,6 @@
 ﻿namespace FantasyFootball.Models.DTOs.Players;
 
-public sealed class Player
+public sealed class PlayerResponse
 {
     public required int Id { get; init; }
 
