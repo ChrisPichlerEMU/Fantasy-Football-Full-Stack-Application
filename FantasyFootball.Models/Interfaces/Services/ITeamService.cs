@@ -5,5 +5,5 @@ namespace FantasyFootball.Models.Interfaces.Services;
 
 public interface ITeamService
 {
-    Task<IEnumerable<Team>> GetAllTeams();
+    Task<IEnumerable<TeamResponse>> GetAllTeams();
 }

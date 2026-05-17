@@ -5,9 +5,9 @@ namespace FantasyFootball.Core.Infrastructure.Clients;
 
 public sealed class SportsDataClient(HttpClient httpClient) : BaseHttpClient(httpClient), ISportsDataClient
 {
-    public async Task<IEnumerable<Player>> GetAllPlayers()
+    public async Task<IEnumerable<PlayerResponse>> GetAllPlayers()
     {
-        var httpResult = await ExecuteGet<IEnumerable<Player>>(HttpClientConstants.SportsDataGetAllPlayersPath).ConfigureAwait(false);
+        var httpResult = await ExecuteGet<IEnumerable<PlayerResponse>>(HttpClientConstants.SportsDataGetAllPlayersPath).ConfigureAwait(false);
 
         if (!httpResult.IsSuccess)
         {

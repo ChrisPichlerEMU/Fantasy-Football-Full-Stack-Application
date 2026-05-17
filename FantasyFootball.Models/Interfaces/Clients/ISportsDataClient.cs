@@ -4,5 +4,5 @@ namespace FantasyFootball.Models.Interfaces.Clients;
 
 public interface ISportsDataClient
 {
-    Task<IEnumerable<Player>> GetAllPlayers();
+    Task<IEnumerable<PlayerResponse>> GetAllPlayers();
 }

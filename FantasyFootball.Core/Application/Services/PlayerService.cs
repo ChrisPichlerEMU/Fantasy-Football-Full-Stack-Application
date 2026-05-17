@@ -7,9 +7,9 @@ namespace FantasyFootball.Core.Application.Services;
 
 public sealed class PlayerService(IApiSportsClient apiSportsClient, IApiSportsMediaClient apiSportsMediaClient) : IPlayerService
 {
-    public async Task<IEnumerable<Player>> GetAllPlayers()
+    public async Task<IEnumerable<PlayerResponse>> GetAllPlayers()
     {
-        List<Player> listOfAllNflPlayers = [];
+        List<PlayerResponse> listOfAllNflPlayers = [];
 
         var allNflTeams = ApiSportsTeam.GetValues();
 
