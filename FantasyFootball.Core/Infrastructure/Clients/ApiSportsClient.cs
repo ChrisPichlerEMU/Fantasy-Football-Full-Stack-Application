@@ -29,4 +29,16 @@ public sealed class ApiSportsClient(HttpClient httpClient) : BaseHttpClient(http
 
         return httpResult.Data ?? throw new InvalidOperationException($"The {HttpClientConstants.ApiSportsGetAllPlayersPath} endpoint returned a null response body.");
     }
+
+    public async Task<GetAllGamesFromLastSeasonResponse> GetAllGamesFromLastSeason()
+    {
+        var httpResult = await ExecuteGet<GetAllGamesFromLastSeasonResponse>(HttpClientConstants.ApiSportsGetAllGamesPath, queryParameters: [ApiSportsLeague.NFL, ApiSportsSeason.Season2024]).ConfigureAwait(false);
+    
+        if (!httpResult.IsSuccess)
+        {
+            throw new HttpRequestException(BuildErrorMessage(HttpClientConstants.ApiSportsGetAllGamesPath, httpResult.ErrorMessage));
+        }
+
+        return httpResult.Data ?? throw new InvalidOperationException($"The {HttpClientConstants.ApiSportsGetAllGamesPath} endpoint returned a null response body.");
+    }
 }
